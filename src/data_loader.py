@@ -13,6 +13,12 @@ def load_race_data():
 
 if __name__ == "__main__":
     laps = load_race_data()
+
     print(laps.head())
     print("\nColumns in dataset:\n")
     print(laps.columns)
+
+    # Save dataset as CSV
+    laps.to_csv("data/bahrain_2023_laps.csv", index=False)
+
+    print("\nDataset saved successfully!")
