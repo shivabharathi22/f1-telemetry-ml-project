@@ -1,7 +1,7 @@
 import fastf1
 
 # Enable cache so data loads faster after first time
-fastf1.Cache.enable_cache('data')
+fastf1.Cache.enable_cache('cache')
 
 def load_race_data():
     # Load 2023 Bahrain Grand Prix Race
