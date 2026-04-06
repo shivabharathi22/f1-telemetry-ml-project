@@ -36,6 +36,15 @@ df["LapTimeSeconds"] = pd.to_timedelta(df["LapTime"]).dt.total_seconds()
 # Remove unrealistic lap times
 df = df[(df["LapTimeSeconds"] > 60) & (df["LapTimeSeconds"] < 200)]
 
+# Sort properly before creating previous lap feature
+df = df.sort_values(["RaceName", "Driver", "LapNumber"])
+
+# Create Previous Lap Time feature
+df["PreviousLapTime"] = df.groupby(["RaceName", "Driver"])["LapTimeSeconds"].shift(1)
+
+# Remove rows where previous lap is missing
+df = df.dropna(subset=["PreviousLapTime"])
+
 # Drop pit columns after filtering
 df = df.drop(columns=["PitInTime", "PitOutTime"])
 
@@ -48,4 +57,4 @@ print("\nCleaned multi-race dataset shape:", df.shape)
 # Save cleaned dataset
 df.to_csv("data/cleaned_f1_2023_multi_race_laps.csv", index=False)
 
-print("\nCleaned multi-race dataset saved successfully!") 
+print("\nCleaned multi-race dataset with PreviousLapTime saved successfully!")
